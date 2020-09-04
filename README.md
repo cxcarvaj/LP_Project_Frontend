@@ -1,8 +1,10 @@
-# animal_rescue
+# LP_Project_Frontend
+
+## animal_rescue
 
 A new Flutter project.
 
-## Getting Started
+### Getting Started
 
 This project is a starting point for a Flutter application.
 
