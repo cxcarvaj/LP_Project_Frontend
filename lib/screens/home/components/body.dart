@@ -2,8 +2,10 @@ import 'package:animal_rescue/models/AppIcon.dart';
 import 'package:flutter/material.dart';
 import 'item_card.dart';
 import 'package:animal_rescue/screens/form/form_screen.dart';
+import 'package:animal_rescue/screens/sponsor/sponsor_screen.dart';
 
 class Body extends StatelessWidget {
+  var pages =[ HomeSponsor(), HomeMaterial(),HomeMaterial(),];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,7 +35,7 @@ class Body extends StatelessWidget {
                   appIcon: appIcons[index],
                   press: ()=>Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context)=> HomeMaterial()),
+                    MaterialPageRoute(builder: (context)=> pages[index]),
                   ),
                 )),
           ),
