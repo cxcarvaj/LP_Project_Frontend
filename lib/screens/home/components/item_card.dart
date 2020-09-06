@@ -5,6 +5,7 @@ import 'package:animal_rescue/models/AppIcon.dart';
 class ItemCard extends StatelessWidget {
   final AppIcon appIcon;
   final Function press;
+  
   const ItemCard({
     this.appIcon,
     this.press,
@@ -27,7 +28,7 @@ class ItemCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
-                tag: "${1}",
+                tag: "${appIcon.id}",
                 child: Image.asset(appIcon.image),
               ),
             ),

@@ -1,6 +1,7 @@
 import 'package:animal_rescue/models/AppIcon.dart';
 import 'package:flutter/material.dart';
 import 'item_card.dart';
+import 'package:animal_rescue/screens/form/form_screen.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -30,10 +31,10 @@ class Body extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (context, index) => ItemCard(
                   appIcon: appIcons[index],
-                  // press: ()=>Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context)=> anotherScreen()),
-                  // ),
+                  press: ()=>Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context)=> HomeMaterial()),
+                  ),
                 )),
           ),
         ),
