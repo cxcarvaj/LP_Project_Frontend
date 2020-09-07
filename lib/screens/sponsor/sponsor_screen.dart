@@ -16,16 +16,17 @@ class _HomeSponsorState extends State<HomeSponsor> {
   bool loading = true;
   List values = [];
   List contacts = [];
+  final String ip = "192.168.112.1";
 
   getPets() async {
     var dio = Dio();
-    var _pet = await dio.get('http://192.168.1.8:8000/api/pets/consult');
+    var _pet = await dio.get('http://${ip}:3000/api/pets/consult');
     return _pet.data;
   }
 
   getNeedRecords() async {
     var dio = Dio();
-    var response = await dio.get('http://192.168.1.8:8000/api/needrecords/consult');
+    var response = await dio.get('http://${ip}:3000/api/needrecords/consult');
     return response.data;
   }
 
