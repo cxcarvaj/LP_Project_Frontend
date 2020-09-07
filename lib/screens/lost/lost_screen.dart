@@ -1,4 +1,6 @@
+import 'dart:convert';
 
+import 'package:convert/convert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -10,8 +12,8 @@ class HomeLost extends StatefulWidget {
 }
 
 class _HomeLostState extends State<HomeLost> {
-  List entries = ['A', 'B', 'C', 'E', 'F', 'G'];
   List mascotas = [];
+  List images = [];
   bool loading = true;
   final String ip = "192.168.112.1";
 
@@ -25,19 +27,34 @@ class _HomeLostState extends State<HomeLost> {
     return response.data;
   }
 
+  getPhotos(String raza) async{
+    if(raza == "mestizo")
+      raza = "schnauzer";
+    var response = await Dio().get('http://${ip}:3000/api/api-dog/${raza}');
+    return response.data;
+  }
+
   @override
   void initState() {
     getLossRecords().then((data) {
-      setState(() {
-        getAllPets().then((data1) {
-          setState(() {
-            mascotas = [];
-            for(var obj in data)
-              for(var obj1 in data1)
-                if(obj1['id'] == obj['mascota'])
-                  mascotas.add(obj1);
-            loading = false;
-          });
+      getAllPets().then((data1) {
+        setState(() {
+          mascotas = [];
+          int i = 0;
+          for(var obj in data){
+            for(var obj1 in data1)
+              if(obj1['id'] == obj['mascota']) // Se simula hacer un JOIN entre dos tablas
+              {
+                mascotas.add(obj1);
+                getPhotos(obj1['especie'].toString().toLowerCase()).then((data2) {
+                  setState(() {
+                    data2 = jsonDecode(data2);
+                    images.add(data2["message"][i++]);
+                  });
+                });
+              }
+          }
+          loading = false;
         });
       });
     });
@@ -48,7 +65,6 @@ class _HomeLostState extends State<HomeLost> {
   Widget build(BuildContext context) {
     final _lostKey = GlobalKey<FormState>();
     // final List<String> entries = <String>[];
-    print(mascotas);
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -83,7 +99,12 @@ class _HomeLostState extends State<HomeLost> {
                                                 height: 140,
                                                 width: 140,
                                                 child: Align(
-                                                    child: Image.asset(
+                                                    child: images.length > 0 ?
+                                                      Image.network(
+                                                        images[index],
+                                                        height: 100,
+                                                        width: 100)
+                                                      : Image.asset(
                                                         'assets/images/apadrinar.jpg',
                                                         height: 100,
                                                         width: 100),
