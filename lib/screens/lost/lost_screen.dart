@@ -1,4 +1,6 @@
-
+import 'dart:convert';
+import 'package:animal_rescue/screens/lost/components/PetCard.dart';
+import 'package:animal_rescue/screens/lost/more_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -10,8 +12,9 @@ class HomeLost extends StatefulWidget {
 }
 
 class _HomeLostState extends State<HomeLost> {
-  List entries = ['A', 'B', 'C', 'E', 'F', 'G'];
+  List contacts = [];
   List mascotas = [];
+  List images = [];
   bool loading = true;
   final String ip = "192.168.112.1";
 
@@ -25,19 +28,36 @@ class _HomeLostState extends State<HomeLost> {
     return response.data;
   }
 
+  getPhotos(String raza) async{
+    if(raza == "mestizo")
+      raza = "schnauzer";
+    var response = await Dio().get('http://${ip}:3000/api/api-dog/${raza}');
+    return response.data;
+  }
+
   @override
   void initState() {
     getLossRecords().then((data) {
-      setState(() {
-        getAllPets().then((data1) {
-          setState(() {
-            mascotas = [];
-            for(var obj in data)
-              for(var obj1 in data1)
-                if(obj1['id'] == obj['mascota'])
-                  mascotas.add(obj1);
-            loading = false;
-          });
+      getAllPets().then((data1) {
+        setState(() {
+          contacts = [];
+          mascotas = [];
+          int i = 0;
+          for(var obj in data){
+            contacts.add(obj);
+            for(var obj1 in data1)
+              if(obj1['id'] == obj['mascota']) // Se simula hacer un JOIN entre dos tablas
+              {
+                mascotas.add(obj1);
+                getPhotos(obj1['especie'].toString().toLowerCase()).then((data2) {
+                  setState(() {
+                    data2 = jsonDecode(data2);
+                    images.add(data2["message"][i++]);
+                  });
+                });
+              }
+          }
+          loading = false;
         });
       });
     });
@@ -48,7 +68,6 @@ class _HomeLostState extends State<HomeLost> {
   Widget build(BuildContext context) {
     final _lostKey = GlobalKey<FormState>();
     // final List<String> entries = <String>[];
-    print(mascotas);
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -60,82 +79,42 @@ class _HomeLostState extends State<HomeLost> {
         ),
         body: !loading ? LayoutBuilder(
             builder: (BuildContext context, BoxConstraints viewportConstraints) {
-              return ListView.separated(
-                padding: const EdgeInsets.all(8),
-                key: _lostKey,
-                itemCount: mascotas.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 170,
-                    color: Colors.transparent,
-                    child: Center(child: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                        child:
-                        Card(
-                            color: const Color(0xffdff4ff),
-                            child: Row(
-
-                                children: <Widget>[
-                                  Column(
-                                      children: <Widget>[
-                                        Center(
-                                            child: Container(
-                                                height: 140,
-                                                width: 140,
-                                                child: Align(
-                                                    child: Image.asset(
-                                                        'assets/images/apadrinar.jpg',
-                                                        height: 100,
-                                                        width: 100),
-                                                    alignment: Alignment.center
-                                                )
-                                            )
-                                          //alignment: Alignment.center,
-                                        ),
-                                      ]
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(1.0, 10.0, 1.0, 10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start ,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: Text('Mascota ${mascotas[index]['name']}', style: TextStyle(fontWeight: FontWeight.bold),),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: Text('Especie ${mascotas[index]['especie']}'),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: Text('Sexo ${mascotas[index]['gender']}'),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: Text('Caracteristica ${mascotas[index]['caracteristica']}'),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: Text('Edad ${mascotas[index]['edad']}'),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.all(2.0),
-                                          child: Text('Estado ${mascotas[index]['estado']}'),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                ]
-                            )
-
-                        )
-                    )
+              return Container(
+                  child:
+                  ListView.separated(
+                    padding: const EdgeInsets.all(8),
+                    key: _lostKey,
+                    itemCount: mascotas.length,
+                    itemBuilder: (BuildContext context, int index) => PetCard(
+                        mascota: mascotas[index]['name'],
+                        especie: mascotas[index]['especie'],
+                        sexo: mascotas[index]['gender'],
+                        edad: mascotas[index]['edad'],
+                        caracteristica: mascotas[index]['caracteristica'],
+                        image: images.length > 0 ? images[index] : "",
+                        press: ()=>{
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context)=> LostDetail(
+                              petCard:  PetCard(
+                                mascota: mascotas[index]['name'],
+                                especie: mascotas[index]['especie'],
+                                sexo: mascotas[index]['gender'],
+                                edad: mascotas[index]['edad'],
+                                caracteristica: mascotas[index]['caracteristica'],
+                                image: images.length > 0 ? images[index] : "",
+                                press: (){},
+                              ),
+                              contact: contacts[index]['contacto'],
+                              telefono: contacts[index]['telefono'],
+                              ubicacion: contacts[index]['ubicacion'],
+                            )),
+                          )
+                        }
                     ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) => const Divider(),
+                    separatorBuilder: (BuildContext context, int index) => const Divider(),
+                  )
+
               );
             }
         )
