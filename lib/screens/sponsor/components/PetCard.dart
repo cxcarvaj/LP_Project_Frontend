@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class PetCard extends StatelessWidget {
   final String mascota;
@@ -6,10 +7,11 @@ class PetCard extends StatelessWidget {
   final String sexo;
   final int edad;
   final String caracteristica;
+  final String image;
   final Function press;
   const PetCard({
     this.mascota, this.caracteristica, this.especie, this.edad, this.sexo,
-    this.press,
+    this.press,  this.image
   });
 
 
@@ -35,7 +37,12 @@ class PetCard extends StatelessWidget {
                                         height: 140,
                                         width: 140,
                                         child: Align(
-                                            child: Image.asset(
+                                            child: image != "" ?
+                                            Image.network(
+                                                image,
+                                                height: 100,
+                                                width: 100)
+                                                : Image.asset(
                                                 'assets/images/apadrinar.jpg',
                                                 height: 100,
                                                 width: 100),

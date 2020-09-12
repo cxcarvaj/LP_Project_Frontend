@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animal_rescue/screens/sponsor/components/PetCard.dart';
 import 'package:animal_rescue/screens/sponsor/more_detail.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,42 +16,62 @@ class HomeSponsor extends StatefulWidget {
 
 class _HomeSponsorState extends State<HomeSponsor> {
   bool loading = true;
-  List values = [];
+  List mascotas = [];
   List contacts = [];
+  List images= [];
+  final String IP = "192.168.1.8";
+  final String PORT="8000";
 
-  getPets() async {
+  getPets(int materia_id) async {
     var dio = Dio();
-    var _pet = await dio.get('http://192.168.1.8:8000/api/pets/consult');
+    var _pet = await dio.get('http://${IP}:${PORT}/api/pets/consult/${materia_id}');
     return _pet.data;
   }
 
   getNeedRecords() async {
     var dio = Dio();
-    var response = await dio.get('http://192.168.1.8:8000/api/needrecords/consult');
+    var response = await dio.get('http://${IP}:${PORT}/api/needrecords/consult');
     return response.data;
+  }
+
+  getImage(String especie) async{
+    if(especie.toLowerCase().trim()=='perro'){
+      var dio = Dio();
+      var response = await dio.get('http://${IP}:${PORT}/api/api-dog');
+      return response.data;
+    }else{
+      return '{"message":""}';
+    }
+
   }
 
   @override
   void initState() {
     getNeedRecords().then((records) {
       setState(() {
-        getPets().then((pets) {
-          setState(() {
-            values = [];
-            contacts = [];
-            for (var record in records)
-              for (var pet in pets)
-                if (pet['id'] == record['mascota']) {
-                  values.add(pet);
+        contacts = [];
+        mascotas = [];
+        images=[];
+        for (var record in records){
+          var pet_id= record['mascota'];
+          getPets(pet_id).then((pet){
+            setState(() {
+              getImage(pet["especie"]).then((result) {
+                setState(() {
+                  result=jsonDecode(result);
+                  images.add(result["message"]);
+                  mascotas.add(pet);
                   contacts.add(record);
-                }
-
-            loading = false;
+                });
+              });
+            });
           });
-        });
+        }
+        loading = false;
       });
     });
     super.initState();
+
   }
 
   @override
@@ -72,24 +94,26 @@ class _HomeSponsorState extends State<HomeSponsor> {
                   ListView.separated(
                     padding: const EdgeInsets.all(8),
                     key: _sponsorKey,
-                    itemCount: values.length,
+                    itemCount: mascotas.length,
                     itemBuilder: (BuildContext context, int index) => PetCard(
-                        mascota: values[index]['name'],
-                        especie: values[index]['especie'],
-                        sexo: values[index]['gender'],
-                        edad: values[index]['edad'],
-                        caracteristica: values[index]['caracteristica'],
+                        mascota: mascotas[index]['name'],
+                        especie: mascotas[index]['especie'],
+                        sexo: mascotas[index]['gender'],
+                        edad: mascotas[index]['edad'],
+                        caracteristica: mascotas[index]['caracteristica'],
+                        image:images[index],
                         press: ()=>{
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context)=> SponsorDetail(
                               petCard:  PetCard(
-                                mascota: values[index]['name'],
-                                especie: values[index]['especie'],
-                                sexo: values[index]['gender'],
-                                edad: values[index]['edad'],
-                                caracteristica: values[index]['caracteristica'],
+                                mascota: mascotas[index]['name'],
+                                especie: mascotas[index]['especie'],
+                                sexo: mascotas[index]['gender'],
+                                edad: mascotas[index]['edad'],
+                                caracteristica: mascotas[index]['caracteristica'],
                                 press: (){},
+                                image: images[index],
                               ),
                               contact: contacts[index]['contacto'],
                               telefono: contacts[index]['telefono'],
