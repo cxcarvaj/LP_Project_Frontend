@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:animal_rescue/services/Authentication.dart';
 import 'package:dio/dio.dart';
 
 class Login extends StatefulWidget {
@@ -15,8 +17,12 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    _showDialog(BuildContext context, String mssg) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('${mssg}')));
+    }
     return Scaffold(
-
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return SingleChildScrollView(
@@ -111,13 +117,14 @@ class _LoginState extends State<Login> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 16.0, horizontal: 100.0),
                                           child: RaisedButton(
-                                              onPressed: () {
+                                              onPressed: () async {
 
                                                 final form = _loginKey.currentState;
                                                 if (form.validate()){
                                                   form.save();
-                                                  print(_usernameController.text);
-                                                  //singIn(context);
+                                                  await authService.login(_usernameController.text, _passwordController.text);
+                                                  _showDialog(context, authService.mssg);
+                                                  _loginKey.currentState?.reset();
                                                 }
                                               },
                                               color: const Color(0xffdff4ff),

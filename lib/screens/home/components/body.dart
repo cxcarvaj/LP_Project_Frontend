@@ -38,7 +38,8 @@ class Body extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context)=> pages[index]),
                   ),
-                )),
+                )
+            ),
           ),
         ),
       ],
