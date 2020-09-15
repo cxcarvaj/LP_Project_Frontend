@@ -49,6 +49,15 @@ flutter:
   uses-material-design: true
   assets: 
       - assets/images/
+  fonts:
+
+    - family: CaveatBrush
+      fonts:
+        - asset: assets/fonts/CaveatBrush-Regular.ttf
+    - family: MarckScript
+      fonts:
+        - asset: assets/fonts/MarckScript-Regular.ttf
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

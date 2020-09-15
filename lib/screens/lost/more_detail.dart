@@ -35,9 +35,18 @@ class _LostDetailState extends State<LostDetail> {
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
-          backgroundColor: Colors.yellowAccent[100],
+          backgroundColor: Color(0xFFFFEFCA),
           title:
-          Text("Mascotas Perdidas", style: TextStyle(color: Colors.black)),
+          Text("Mascotas Perdidas",
+              style: TextStyle(color: Colors.black)),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.monetization_on, color: Colors.transparent,),
+              color: Colors.transparent,
+              onPressed: (){},
+            )
+          ],
+          centerTitle: true,
         ),
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints viewportConstraints) {
@@ -47,7 +56,7 @@ class _LostDetailState extends State<LostDetail> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 20.0),
-                      child: Text("Información", textAlign: TextAlign.center,
+                      child: Text(" ", textAlign: TextAlign.center,
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black45),),
                     ),
 

@@ -14,6 +14,12 @@ final _passwordController = TextEditingController();
 
 class _LoginState extends State<Login> {
   final _loginKey = GlobalKey<FormState>();
+  bool passwordVisible;
+  @override
+  void initState() {
+    passwordVisible = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,114 +35,147 @@ class _LoginState extends State<Login> {
                   child: ConstrainedBox(
                       constraints:
                       BoxConstraints(minHeight: viewportConstraints.maxHeight),
-                      child: Column(
-                        children: [
-                          Builder(
-                              builder: (BuildContext context) => Form(
-                                  key: _loginKey,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(10, 100, 10, 0),
-                                        child:
-                                        Center(
-                                          child: Align(
-                                            child: Image.asset('assets/images/log.png'),
-                                            alignment: Alignment.center,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Column(
+
+                          children: [
+                            Builder(
+                                builder: (BuildContext context) => Form(
+                                    key: _loginKey,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(10, 100, 10, 10),
+                                          child: Center(
+                                            child: Text("Animal Rescue",
+                                              style: TextStyle(fontFamily: 'MarckScript', fontSize: 45, fontWeight: FontWeight.bold,
+                                                  color: const Color(0xff718489)),
+
+                                            ),
                                           ),
                                         ),
-                                      ),
-
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-                                              child: Text("Usuario:", style:  TextStyle(fontWeight: FontWeight.normal, fontSize: 16),),
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                          child:
+                                          Center(
+                                            child: Align(
+                                              child: Image.asset('assets/images/animalrescue.png'),
+                                              alignment: Alignment.center,
                                             ),
-                                            TextFormField(
-                                              style: TextStyle(fontSize: 16),
-                                              decoration: InputDecoration(
-                                                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black54, width: 1.0)
+                                          ),
+                                        ),
+
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+                                                child: Text("Usuario:",
+                                                  style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 16,
+                                                  color: Color(0xff404f53)),),
+                                              ),
+                                              TextFormField(
+                                                style: TextStyle(fontSize: 16,  color: Color(0xff073b4c)),
+                                                decoration: InputDecoration(
+                                                  hintText: "Ingrese su usuario",
+                                                  hintStyle: TextStyle(fontWeight: FontWeight.w100),
+                                                  fillColor: Color(0xffa0b7c0).withOpacity(0.04),
+                                                  filled: true,
+                                                  contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                                                  isDense: true,
+                                                  enabledBorder: UnderlineInputBorder(
+                                                      borderSide: new BorderSide(
+                                                        color: const Color(0xffa0b7c0),
+                                                        width: 2.0,
+                                                      )
+                                                  ),
+
                                                 ),
-                                                contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                                                isDense: true,
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(color: Colors.lightBlueAccent, width: 0.5),
+                                                controller: _usernameController,
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Ingrese su Usuario';
+                                                  }
+                                                },
+                                                onSaved: (val) =>{},
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(40, 10, 40, 30),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+                                                child: Text("Contraseña",
+                                                    style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 16,
+                                                        color: Color(0xff404f53))),
+                                              ),
+                                              TextFormField(
+                                                style: TextStyle(fontSize: 16, color: Color(0xff073b4c)),
+                                                obscureText: !passwordVisible,
+                                                decoration:
+                                                InputDecoration(
+                                                  hintText: "Ingrese su contraseña",
+                                                  hintStyle: TextStyle(fontWeight: FontWeight.w100),
+                                                  fillColor: Color(0xffa0b7c0).withOpacity(0.04),
+                                                  filled: true,
+                                                  contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                                                  isDense: true,
+                                                  enabledBorder: UnderlineInputBorder(
+                                                      borderSide: new BorderSide(
+                                                        color: const Color(0xffa0b7c0),
+                                                        width: 2.0,
+                                                      )
+                                                  ),
                                                 ),
+                                                controller: _passwordController,
+
+                                                validator: (value) {
+                                                  if (value.isEmpty) {
+                                                    return 'Ingrese su Contraseña';
+                                                  }
+                                                },
+
+                                                onSaved: (val) =>{},
                                               ),
 
-                                              controller: _usernameController,
-                                              validator: (value) {
-                                                if (value.isEmpty) {
-                                                  return 'Ingrese su Usuario';
-                                                }
-                                              },
-                                              onSaved: (val) =>{},
-                                            ),
-                                          ],
+                                            ]
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                              child: Text("Contraseña:", style:  TextStyle(fontWeight: FontWeight.normal, fontSize: 16)),
-                                            ),
-                                            TextFormField(
-                                              style: TextStyle(fontSize: 16),
-                                              decoration:
-                                              InputDecoration(
-                                                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black54, width: 1.0)
-                                                ),
-                                                contentPadding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                                                isDense: true,
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderSide: BorderSide(color: Colors.lightBlueAccent, width: 0.5),
-                                                ),
-                                              ),
-                                              controller: _passwordController,
-                                              validator: (value) {
-                                                if (value.isEmpty) {
-                                                  return 'Ingrese su Contraseña';
-                                                }
-                                              },
+                                        Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 16.0, horizontal: 120.0),
+                                            child: RaisedButton(
+                                                onPressed: () async {
 
-                                              onSaved: (val) =>{},
-                                            ),
-                                          ],
+                                                  final form = _loginKey.currentState;
+                                                  if (form.validate()){
+                                                    form.save();
+                                                    await authService.login(_usernameController.text, _passwordController.text);
+                                                    _showDialog(context, authService.mssg);
+                                                    _loginKey.currentState?.reset();
+                                                  }
+                                                },
+                                                color: const Color(0xffa0b7c0),
+                                                child: Text('Ingresar', style:  TextStyle(fontWeight: FontWeight.w800, color: Colors.white, fontSize: 15))
+                                            )
                                         ),
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 16.0, horizontal: 100.0),
-                                          child: RaisedButton(
-                                              onPressed: () async {
-
-                                                final form = _loginKey.currentState;
-                                                if (form.validate()){
-                                                  form.save();
-                                                  await authService.login(_usernameController.text, _passwordController.text);
-                                                  _showDialog(context, authService.mssg);
-                                                  _loginKey.currentState?.reset();
-                                                }
-                                              },
-                                              color: const Color(0xffdff4ff),
-                                              child: Text('Enviar')
-                                          )
-                                      ),
-                                    ],
-                                  )
-                              )
-                          )
-                        ],
-                      )
+                                      ],
+                                    )
+                                )
+                            )
+                          ],
+                        ),
+                      ),
                   )
               );
             }

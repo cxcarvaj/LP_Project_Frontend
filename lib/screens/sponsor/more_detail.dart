@@ -31,14 +31,23 @@ class _SponsorDetailState extends State<SponsorDetail> {
     final _moredetail = GlobalKey<FormState>();
     final List<String> entries = <String>['A', 'B', 'C', 'E', 'F', 'G'];
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          backgroundColor: Color(0xFFFFEFCA),
+          title:
+          Text("Mascotas por Apadrinar",
+              style: TextStyle(color: Colors.black)),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.monetization_on, color: Colors.transparent,),
+              color: Colors.transparent,
+              onPressed: (){},
+            )
+          ],
+          centerTitle: true,
         ),
-        backgroundColor: Colors.yellowAccent[100],
-        title:
-        Text("Mascotas por Apadrinar", style: TextStyle(color: Colors.black)),
-      ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
            return Container(
@@ -47,7 +56,7 @@ class _SponsorDetailState extends State<SponsorDetail> {
                children: <Widget>[
                  Padding(
                    padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 20.0),
-                   child: Text("Información", textAlign: TextAlign.center,
+                   child: Text(" ", textAlign: TextAlign.center,
                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black45),),
                   ),
 

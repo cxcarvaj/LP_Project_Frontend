@@ -42,7 +42,7 @@ class PetCard extends StatelessWidget {
                                               height: 100,
                                               width: 100)
                                               : Image.asset(
-                                              'assets/images/apadrinar.jpg',
+                                              'assets/images/pets.jpg',
                                               height: 100,
                                               width: 100),
                                               alignment: Alignment.center

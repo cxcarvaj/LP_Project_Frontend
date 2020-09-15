@@ -24,7 +24,7 @@ class ItemCard extends StatelessWidget {
               height: 180,
               width: 160,
               decoration: BoxDecoration(
-                color: Colors.blue[100],
+                color: appIcon.color,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Hero(
@@ -36,9 +36,11 @@ class ItemCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0 / 4),
           ),
-          Text(
-            "${appIcon.title}",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Center(
+            child: Text(
+              "${appIcon.title}",
+              style: TextStyle(fontWeight: FontWeight.normal),
+            ),
           )
         ],
       ),

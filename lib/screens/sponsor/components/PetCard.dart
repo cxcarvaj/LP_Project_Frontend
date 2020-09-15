@@ -23,7 +23,7 @@ class PetCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Center(child: Padding(
-                padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                 child:
                 Card(
                     color: const Color(0xffdff4ff),
@@ -43,7 +43,7 @@ class PetCard extends StatelessWidget {
                                                 height: 100,
                                                 width: 100)
                                                 : Image.asset(
-                                                'assets/images/apadrinar.jpg',
+                                                'assets/images/pets.jpg',
                                                 height: 100,
                                                 width: 100),
                                             alignment: Alignment.center

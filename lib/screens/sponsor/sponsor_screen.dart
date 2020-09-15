@@ -81,10 +81,18 @@ class _HomeSponsorState extends State<HomeSponsor> {
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
-          backgroundColor: Colors.yellowAccent[100],
+          backgroundColor: Color(0xFFFFEFCA),
           title:
           Text("Mascotas por Apadrinar",
               style: TextStyle(color: Colors.black)),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.monetization_on, color: Colors.transparent,),
+              color: Colors.transparent,
+              onPressed: (){},
+            )
+          ],
+          centerTitle: true,
         ),
         body: !loading ? LayoutBuilder(
             builder: (BuildContext context, BoxConstraints viewportConstraints) {

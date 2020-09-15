@@ -73,9 +73,18 @@ class _HomeLostState extends State<HomeLost> {
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
-          backgroundColor: Colors.yellowAccent[100],
+          backgroundColor: Color(0xFFFFEFCA),
           title:
-          Text("Mascotas Perdidas", style: TextStyle(color: Colors.black)),
+          Text("Mascotas Perdidas",
+              style: TextStyle(color: Colors.black)),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.monetization_on, color: Colors.transparent,),
+              color: Colors.transparent,
+              onPressed: (){},
+            )
+          ],
+          centerTitle: true,
         ),
         body: !loading ? LayoutBuilder(
             builder: (BuildContext context, BoxConstraints viewportConstraints) {

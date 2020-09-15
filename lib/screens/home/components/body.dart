@@ -6,20 +6,20 @@ import 'package:animal_rescue/screens/form/form_screen.dart';
 import 'package:animal_rescue/screens/sponsor/sponsor_screen.dart';
 
 class Body extends StatelessWidget {
-  var pages =[ HomeSponsor(), HomeMaterial(),HomeLost(),];
+  var pages =[  HomeMaterial(),HomeLost(),HomeSponsor(),];
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Text("Animal Rescue",
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5
-                  .copyWith(fontWeight: FontWeight.bold)),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+          child: Center(
+            child: Text(" ",
+                textAlign: TextAlign.center,
+                style: TextStyle( fontWeight: FontWeight.normal, fontSize: 40,
+                color: Color(0xff073B4C))),
+          ),
         ),
         Expanded(
           child: Padding(

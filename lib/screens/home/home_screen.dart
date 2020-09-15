@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animal_rescue/screens/home/components/body.dart';
 import 'package:animal_rescue/services/Authentication.dart';
@@ -11,10 +12,11 @@ class HomeScreen extends StatelessWidget {
       appBar: buildAppBar(),
       body: Body(),
       floatingActionButton: new FloatingActionButton(
+        backgroundColor: Color(0xffe8d39f),
         onPressed: (){
           _settingModalBottomSheet(context, authService);
         },
-        child: new Icon(Icons.input),
+        child: new Icon(Icons.input , color: Colors.white,),
       ),
 
     );
@@ -22,14 +24,23 @@ class HomeScreen extends StatelessWidget {
 
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.yellowAccent[100],
-      title: Text("Home", style: TextStyle(color: Colors.black)),
-      elevation: 0,
+      backgroundColor: const Color(0xffFFEFCA),
+      title: Center(child: Text("Home", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),),
+      elevation: 1,
       leading: IconButton(
         icon:Icon(Icons.arrow_back_ios),
         color: Colors.black,
         onPressed: () {},
       ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.home, color: Colors.transparent,),
+          color: Colors.transparent,
+          onPressed: (){},
+        )
+      ],
+      centerTitle: true,
+
     );
   }
 
@@ -45,6 +56,7 @@ class HomeScreen extends StatelessWidget {
                     title: new Text('Cerrar Sesión'),
                     onTap: ()  {
                       authService.logOut();
+                      Navigator.pop(context);
                     }
                 ),
 

@@ -134,9 +134,18 @@ class _HomeMaterialState extends State<HomeMaterial> {
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
-          backgroundColor: Colors.yellowAccent[100],
+          backgroundColor: Color(0xFFFFEFCA),
           title:
-              Text("Reportar Mascota", style: TextStyle(color: Colors.black)),
+          Text("Reportar Mascotas",
+              style: TextStyle(color: Colors.black)),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.monetization_on, color: Colors.transparent,),
+              color: Colors.transparent,
+              onPressed: (){},
+            )
+          ],
+          centerTitle: true,
         ),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
@@ -146,171 +155,225 @@ class _HomeMaterialState extends State<HomeMaterial> {
                     BoxConstraints(minHeight: viewportConstraints.maxHeight),
                 child: Column(children: [
                   Builder(
-                      builder: (context) => Form(
-                          key: _formKey,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  "Información de la mascota:",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                TextFormField(
-                                  decoration:
+                      builder: (context) => Padding(
+                          padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+                        child: Form(
+                            key: _formKey,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Container(
+                                      color: const Color(0xffededed),
+                                      width: 350,
+                                      height: 30,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text("Información de la mascota", textAlign: TextAlign.start,
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),),
+                                      )
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                    child: TextFormField(
+                                      decoration:
                                       InputDecoration(labelText: 'Nombre:'),
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return 'Porfavor entre el nombre de la mascota';
-                                    }
-                                  },
-                                  onSaved: (val) =>
-                                      setState(() => _form.petsName = val),
-                                ),
-                                TextFormField(
-                                    decoration:
-                                        InputDecoration(labelText: 'Especie:'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Porfavor entre la especie de la mascota.';
-                                      }
-                                    },
-                                    onSaved: (val) =>
-                                        setState(() => _form.especie = val)),
-                                Text(""),
-                                Text(
-                                  "Sexo",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                CheckboxListTile(
-                                    title: Text("Macho"),
-                                    value: _form.sex[Formulario.Male],
-                                    onChanged: (val) {
-                                      setState(() =>
-                                          _form.sex[Formulario.Male] = val);
-                                    }),
-                                CheckboxListTile(
-                                    title: Text("Hembra"),
-                                    value: _form.sex[Formulario.Female],
-                                    onChanged: (val) {
-                                      setState(() =>
-                                          _form.sex[Formulario.Female] = val);
-                                    }),
-                                TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Descripción:'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Por favor llene este campo.';
-                                      }
-                                    },
-                                    onSaved: (val) =>
-                                        setState(() => _form.desc = val)),
-                                Text(""),
-                                Text(
-                                  "Estatus",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                CheckboxListTile(
-                                    title: const Text('Perdido'),
-                                    value: _form.estados[Formulario.Lost],
-                                    onChanged: (val) {
-                                      setState(() =>
-                                          _form.estados[Formulario.Lost] = val);
-                                    }),
-                                CheckboxListTile(
-                                    title: const Text('Necesitado'),
-                                    value: _form.estados[Formulario.Need],
-                                    onChanged: (val) {
-                                      setState(() =>
-                                          _form.estados[Formulario.Need] = val);
-                                    }),
-                                Text(""),
-                                Text(
-                                  "Ubicación",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Posición X:'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Por favor llene este campo.';
-                                      }
-                                    },
-                                    onSaved: (val) => setState(
-                                        () => _form.cordX = double.parse(val))),
-                                TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Posición Y:'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Por favor llene este campo.';
-                                      }
-                                    },
-                                    onSaved: (val) => setState(
-                                        () => _form.cordY = double.parse(val))),
-                                Text(
-                                  "Información de Contacto:",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Nombre y Apellido:'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Por favor llene este campo.';
-                                      }
-                                    },
-                                    onSaved: (val) =>
-                                        setState(() => _form.contacName = val)),
-                                TextFormField(
-                                    decoration:
-                                        InputDecoration(labelText: 'Cédula:'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Por favor llene este campo.';
-                                      }
-                                    },
-                                    onSaved: (val) =>
-                                        setState(() => _form.cedula = val)),
-                                TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText: 'Telf./No. de Celular:'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Por favor llene este campo.';
-                                      }
-                                    },
-                                    onSaved: (val) =>
-                                        setState(() => _form.celular = val)),
-                                Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16.0, horizontal: 16.0),
-                                    child: RaisedButton(
-                                        onPressed: () {
-                                          final form = _formKey.currentState;
-                                          if (form.validate()) {
-                                            form.save();
-                                            _form.save();
-                                            _showDialog(context);
-                                            var keyValueEstado =
-                                                _form.estados.keys.firstWhere(
-                                                    (k) =>
-                                                        _form.estados[k] ==
-                                                        true,
-                                                    orElse: () => null);
-                                            postPet(_form);
-                                            postUbicacion(_form);
-                                            if (keyValueEstado ==
-                                                "Necesitado") {
-                                              postDataNeed(_form);
-                                            } else {
-                                              postData(_form);
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'Porfavor entre el nombre de la mascota';
+                                        }
+                                      },
+                                      onSaved: (val) =>
+                                          setState(() => _form.petsName = val),
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child:TextFormField(
+                                          decoration:
+                                          InputDecoration(labelText: 'Especie:'),
+                                          validator: (value) {
+                                            if (value.isEmpty) {
+                                              return 'Porfavor entre la especie de la mascota.';
                                             }
+                                          },
+                                          onSaved: (val) =>
+                                              setState(() => _form.especie = val)),
+                                  ),
+                                  Text(""),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    child: Text(
+                                      "Sexo",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  CheckboxListTile(
+                                      title: Text("Macho"),
+                                      value: _form.sex[Formulario.Male],
+                                      onChanged: (val) {
+                                        setState(() =>
+                                        _form.sex[Formulario.Male] = val);
+                                      }),
+                                  CheckboxListTile(
+                                      title: Text("Hembra"),
+                                      value: _form.sex[Formulario.Female],
+                                      onChanged: (val) {
+                                        setState(() =>
+                                        _form.sex[Formulario.Female] = val);
+                                      }),
+                                 Padding(
+                                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                   child:  TextFormField(
+                                       decoration: InputDecoration(
+                                           labelText: 'Descripción:'),
+                                       validator: (value) {
+                                         if (value.isEmpty) {
+                                           return 'Por favor llene este campo.';
+                                         }
+                                       },
+                                       onSaved: (val) =>
+                                           setState(() => _form.desc = val)),
+                                 ),
+                                  Text(""),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    child: Text(
+                                      "Estatus",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  CheckboxListTile(
+                                      title: const Text('Perdido'),
+                                      value: _form.estados[Formulario.Lost],
+                                      onChanged: (val) {
+                                        setState(() =>
+                                        _form.estados[Formulario.Lost] = val);
+                                      }),
+                                  CheckboxListTile(
+                                      title: const Text('Necesitado'),
+                                      value: _form.estados[Formulario.Need],
+                                      onChanged: (val) {
+                                        setState(() =>
+                                        _form.estados[Formulario.Need] = val);
+                                      }),
+
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+                                    child: Text(
+                                      "Ubicación",
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                            labelText: 'Posición X:'),
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Por favor llene este campo.';
                                           }
                                         },
-                                        child: Text('Enviar'))),
-                              ])))
+                                        onSaved: (val) => setState(
+                                                () => _form.cordX = double.parse(val))),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 30),
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                            labelText: 'Posición Y:'),
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Por favor llene este campo.';
+                                          }
+                                        },
+                                        onSaved: (val) => setState(
+                                                () => _form.cordY = double.parse(val))),
+                                  ),
+                                  Container(
+                                      color: const Color(0xffededed),
+                                      width: 350,
+                                      height: 30,
+                                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text("Información del contacto", textAlign: TextAlign.start,
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),),
+                                      )
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                            labelText: 'Nombre y Apellido:'),
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Por favor llene este campo.';
+                                          }
+                                        },
+                                        onSaved: (val) =>
+                                            setState(() => _form.contacName = val)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                    child: TextFormField(
+                                        decoration:
+                                        InputDecoration(labelText: 'Cédula:'),
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Por favor llene este campo.';
+                                          }
+                                        },
+                                        onSaved: (val) =>
+                                            setState(() => _form.cedula = val)),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 30),
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                            labelText: 'Telf./No. de Celular:'),
+                                        validator: (value) {
+                                          if (value.isEmpty) {
+                                            return 'Por favor llene este campo.';
+                                          }
+                                        },
+                                        onSaved: (val) =>
+                                            setState(() => _form.celular = val)),
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20.0, horizontal: 100.0),
+                                      child: RaisedButton(
+                                          onPressed: () {
+                                            final form = _formKey.currentState;
+                                            if (form.validate()) {
+                                              form.save();
+                                              _form.save();
+                                              _showDialog(context);
+                                              var keyValueEstado =
+                                              _form.estados.keys.firstWhere(
+                                                      (k) =>
+                                                  _form.estados[k] ==
+                                                      true,
+                                                  orElse: () => null);
+                                              postPet(_form);
+                                              postUbicacion(_form);
+                                              if (keyValueEstado ==
+                                                  "Necesitado") {
+                                                postDataNeed(_form);
+                                              } else {
+                                                postData(_form);
+                                              }
+                                            }
+                                          },
+                                          child: Text('Enviar'))),
+                                ]
+                            )
+                        ),
+                        )
+                      )
                 ]),
               ),
             );
