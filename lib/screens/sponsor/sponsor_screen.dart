@@ -23,9 +23,9 @@ class _HomeSponsorState extends State<HomeSponsor> {
   String get IP => connection.IP;
   String get PORT=> connection.PORT;
 
-  getPets(int materia_id) async {
+  getPets(int id) async {
     var dio = Dio();
-    var _pet = await dio.get('http://${IP}:${PORT}/api/pets/consult/${materia_id}');
+    var _pet = await dio.get('http://${IP}:${PORT}/api/pets/consult/${id}');
     return _pet.data;
   }
 

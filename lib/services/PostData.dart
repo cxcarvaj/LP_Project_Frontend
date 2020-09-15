@@ -67,6 +67,7 @@ class PostData{
         "correo":formulario.email,
         "telefono": formulario.celular,
       });
+      print(response);
       return "Registro exitoso";
     } catch (e) {
       return "No se pudieron guardar sus respuestas";
@@ -83,9 +84,12 @@ class PostData{
       if(response_Ubication==2) return "No se pudo cargar la ubicación";
       var petID= response_Pet["id"];
       var dirID=response_Ubication["id"];
+      var username ="";
+      if(authService.username!="") username= authService.username;
+      else username="cxcarvaj";
       var response =
       await dio.post("http://${IP}:${PORT}/api/lossrecords/register", data: {
-        "username": "cxcarvaj",
+        "username": username,
         "mascota": petID,
         "contacto": formulario.contacName,
         "gender": formulario.sex,
@@ -93,7 +97,7 @@ class PostData{
         "ubicacion": dirID,
         "telefono": formulario.celular
       });
-
+      print(response);
       return "Registro exitoso";
 
     } catch (e) {

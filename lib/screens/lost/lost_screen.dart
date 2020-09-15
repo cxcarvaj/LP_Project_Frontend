@@ -36,6 +36,11 @@ class _HomeLostState extends State<HomeLost> {
     var response = await Dio().get('http://${ip}:${PORT}/api/pets/consult');
     return response.data;
   }
+  getPets(int id) async {
+    var dio = Dio();
+    var _pet = await dio.get('http://${ip}:${PORT}/api/pets/consult/${id}');
+    return _pet.data;
+  }
 
   getPhotos(String raza) async{
     //if(raza == "mestizo")
@@ -57,37 +62,34 @@ class _HomeLostState extends State<HomeLost> {
 
   @override
   void initState() {
-    getLossRecords().then((data) {
-      getAllPets().then((data1) {
-        setState(() {
-          contacts = [];
-          mascotas = [];
-          ubicaciones=[];
-          int i = 0;
-          for(var obj in data){
-            var ubi_id= obj["ubicacion"];
-            for(var obj1 in data1){
-              if(obj1['id'] == obj['mascota']) // Se simula hacer un JOIN entre dos tablas
-              {
-                getImage(obj1["especie"]).then((result) {
-                  setState(() {
-                    result=jsonDecode(result);
-                    mascotas.add(obj1);
-                    images.add(result["message"]);
-                    getUbication(ubi_id).then((ubicacion){
-                      setState(() {
-                        print(ubicacion);
-                        ubicaciones.add(ubicacion["direccion"]);
-                        contacts.add(obj);
-                      });
+    getLossRecords().then((records) {
+      setState(() {
+        contacts = [];
+        mascotas = [];
+        images=[];
+        for (var record in records){
+          var pet_id= record['mascota'];
+          var ubi_id= record['ubicacion'];
+          getPets(pet_id).then((pet){
+            setState(() {
+              getImage(pet["especie"]).then((result) {
+                setState(() {
+                  getUbication(ubi_id).then((ubicacion){
+                    setState(() {
+                      print(ubicacion);
+                      result=jsonDecode(result);
+                      images.add(result["message"]);
+                      mascotas.add(pet);
+                      ubicaciones.add(ubicacion["direccion"]);
+                      contacts.add(record);
                     });
                   });
                 });
-              }
-            }
-          }
-          loading = false;
-        });
+              });
+            });
+          });
+        }
+        loading = false;
       });
     });
     super.initState();
