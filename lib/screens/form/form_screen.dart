@@ -320,15 +320,13 @@ class _HomeMaterialState extends State<HomeMaterial> {
                                               var keyValueEstado = _form.estado;
                                               if (keyValueEstado == "Necesitado") {
                                                 var result = await post.postDataNeed(_form, authService);
-                                                if(result==null){
-                                                  _showDialog(context, result);
-                                                }
+                                                _showDialog(context, result);
+
                                               }
                                               if(keyValueEstado=="Perdido") {
                                                 var result = await post.postData(_form, authService);
-                                                if(result==null){
-                                                  _showDialog(context, result);
-                                                }
+                                                _showDialog(context, result);
+
                                               }
                                               form.reset();
                                             }

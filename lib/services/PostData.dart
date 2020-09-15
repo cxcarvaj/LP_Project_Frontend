@@ -67,9 +67,9 @@ class PostData{
         "correo":formulario.email,
         "telefono": formulario.celular,
       });
-      return response.data;
+      return "Registro exitoso";
     } catch (e) {
-      return null;
+      return "No se pudieron guardar sus respuestas";
     }
 
   }
@@ -78,9 +78,9 @@ class PostData{
     var dio = Dio();
     try {
       var response_Pet = await postPet(formulario);
-      if(response_Pet==1) return "No se pudo cargar la informacion de la mascota";
+      if(response_Pet==1) return "No se pudo cargar la información de la mascota";
       var response_Ubication = await postUbicacion(formulario);
-      if(response_Ubication==2) return "No se pudo cargar la ubicacion";
+      if(response_Ubication==2) return "No se pudo cargar la ubicación";
       var petID= response_Pet["id"];
       var dirID=response_Ubication["id"];
       var response =
@@ -94,10 +94,10 @@ class PostData{
         "telefono": formulario.celular
       });
 
-      return response.data;
+      return "Registro exitoso";
 
     } catch (e) {
-      return null;
+      return "No se pudieron guardar sus respuestas";
     }
   }
 }

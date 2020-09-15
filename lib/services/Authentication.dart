@@ -19,7 +19,6 @@ class AuthService with ChangeNotifier {
     var user = await _handleLogin(username, password);;
     if(user!=null){
       _username = username;
-      print("USER NAME ES ${username}");
       _status = AuthStatus.Authenticated;
       notifyListeners();
     }else{
