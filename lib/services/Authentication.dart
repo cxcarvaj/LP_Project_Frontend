@@ -1,3 +1,4 @@
+import 'package:animal_rescue/services/Connection.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -9,16 +10,21 @@ enum AuthStatus{
 class AuthService with ChangeNotifier {
   AuthStatus _status = AuthStatus.Unauthenticated;
   String _mssg= "";
-  final String IP = "192.168.1.8";
-  final String  PORT ="8000";
+  String _username="";
+  Connection connection = Connection();
+  String get IP => connection.IP;
+  String get PORT=> connection.PORT;
 
   void login(username, password) async{
     var user = await _handleLogin(username, password);;
     if(user!=null){
+      _username = username;
+      print("USER NAME ES ${username}");
       _status = AuthStatus.Authenticated;
       notifyListeners();
     }else{
       _status = AuthStatus.Unauthenticated;
+      _username="";
       notifyListeners();
     }
   }
@@ -46,10 +52,12 @@ class AuthService with ChangeNotifier {
 
 
   void logOut() {
+    _username="";
     _status = AuthStatus.Unauthenticated;
     notifyListeners();
   }
 
   AuthStatus get status => _status;
   String get mssg => _mssg;
+  String get username => _username;
 }

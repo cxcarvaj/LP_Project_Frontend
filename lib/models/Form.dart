@@ -1,30 +1,21 @@
 class Formulario {
-  static const String Male = "Male";
-  static const String Female = "Female";
-  static const String Lost = "Perdido";
-  static const String Need = "Necesitado";
-
-
-
   String petsName = '';
   String especie = '';
   int edad = 0;
-  Map<String, bool> sex = {
-    Male: false,
-    Female: false,
-  };
+  String sex = "Macho";
   String desc = "";
-  Map<String, bool> estados = {
-    Lost: true,
-    Need: false,
-  };
+  String estado = "Perdido";
   double cordX = 0.0;
   double cordY = 0.0;
   String contacName = "";
-  String cedula = "";
   String celular = "";
+  String direccion = "";
+  String email ="";
 
   save() {
-    print('Guardando registro de mascota perdida!');
+    print('Guardando registro!');
   }
+
+
+
 }

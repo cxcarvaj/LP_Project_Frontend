@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:animal_rescue/screens/lost/components/PetCard.dart';
 import 'package:animal_rescue/screens/lost/more_detail.dart';
+import 'package:animal_rescue/services/Connection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -15,24 +16,43 @@ class _HomeLostState extends State<HomeLost> {
   List contacts = [];
   List mascotas = [];
   List images = [];
+  List ubicaciones =[];
   bool loading = true;
-  final String ip = "192.168.112.1";
+  Connection connection = Connection();
+  String get ip => connection.IP;
+  String get PORT=> connection.PORT;
 
   getLossRecords() async {
-    var response = await Dio().get('http://${ip}:3000/api/lossrecords/consult');
+    var response = await Dio().get('http://${ip}:${PORT}/api/lossrecords/consult');
+    return response.data;
+  }
+
+  getUbication(id) async{
+    var response = await Dio().get('http://${ip}:${PORT}/api/ubications/consult/${id}');
     return response.data;
   }
 
   getAllPets() async{
-    var response = await Dio().get('http://${ip}:3000/api/pets/consult');
+    var response = await Dio().get('http://${ip}:${PORT}/api/pets/consult');
     return response.data;
   }
 
   getPhotos(String raza) async{
-    if(raza == "mestizo")
-      raza = "schnauzer";
-    var response = await Dio().get('http://${ip}:3000/api/api-dog/${raza}');
+    //if(raza == "mestizo")
+    raza = "schnauzer";
+    var response = await Dio().get('http://${ip}:${PORT}/api/api-dog/${raza}');
     return response.data;
+  }
+
+  getImage(String especie) async{
+    if(especie.toLowerCase().trim()=='perro'){
+      var dio = Dio();
+      var response = await dio.get('http://${ip}:${PORT}/api/api-dog');
+      return response.data;
+    }else{
+      return '{"message":""}';
+    }
+
   }
 
   @override
@@ -42,20 +62,29 @@ class _HomeLostState extends State<HomeLost> {
         setState(() {
           contacts = [];
           mascotas = [];
+          ubicaciones=[];
           int i = 0;
           for(var obj in data){
-            contacts.add(obj);
-            for(var obj1 in data1)
+            var ubi_id= obj["ubicacion"];
+            for(var obj1 in data1){
               if(obj1['id'] == obj['mascota']) // Se simula hacer un JOIN entre dos tablas
               {
-                mascotas.add(obj1);
-                getPhotos(obj1['especie'].toString().toLowerCase()).then((data2) {
+                getImage(obj1["especie"]).then((result) {
                   setState(() {
-                    data2 = jsonDecode(data2);
-                    images.add(data2["message"][i++]);
+                    result=jsonDecode(result);
+                    mascotas.add(obj1);
+                    images.add(result["message"]);
+                    getUbication(ubi_id).then((ubicacion){
+                      setState(() {
+                        print(ubicacion);
+                        ubicaciones.add(ubicacion["direccion"]);
+                        contacts.add(obj);
+                      });
+                    });
                   });
                 });
               }
+            }
           }
           loading = false;
         });
@@ -116,7 +145,7 @@ class _HomeLostState extends State<HomeLost> {
                               ),
                               contact: contacts[index]['contacto'],
                               telefono: contacts[index]['telefono'],
-                              ubicacion: contacts[index]['ubicacion'],
+                              ubicacion: ubicaciones[index],
                             )),
                           )
                         }

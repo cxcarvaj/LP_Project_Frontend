@@ -59,23 +59,43 @@ class PetCard extends StatelessWidget {
                                 children: <Widget>[
                                   Padding(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text('${mascota}', style: TextStyle(fontWeight: FontWeight.bold),),
+                                    child: Container(
+                                      width: 200,
+                                      child:
+                                      Text('${mascota}' , style: TextStyle(fontWeight: FontWeight.bold),),
+                                    ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text('${especie}'),
+                                    child: Container(
+                                      width: 200,
+                                      child:
+                                      Text('${especie}'),
+                                    )
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text('${sexo}'),
+                                    child: Container(
+                                      width: 200,
+                                      child:
+                                      Text('${sexo}'),
+                                    ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text('${caracteristica}'),
+                                    child: Container(
+                                      width: 200,
+                                      child:
+                                      Text('${caracteristica}'),
+                                    )
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(2.0),
-                                    child: Text('${edad}'),
+                                    child: Container(
+                                      width: 200,
+                                      child:
+                                      Text('Edad: ${edad}'),
+                                    )
                                   ),
                                 ],
                               ),

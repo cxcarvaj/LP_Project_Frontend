@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:animal_rescue/screens/sponsor/components/PetCard.dart';
 import 'package:animal_rescue/screens/sponsor/more_detail.dart';
+import 'package:animal_rescue/services/Connection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -18,8 +19,9 @@ class _HomeSponsorState extends State<HomeSponsor> {
   List mascotas = [];
   List contacts = [];
   List images= [];
-  final String IP = "192.168.1.8";
-  final String PORT="8000";
+  Connection connection = Connection();
+  String get IP => connection.IP;
+  String get PORT=> connection.PORT;
 
   getPets(int materia_id) async {
     var dio = Dio();
@@ -99,7 +101,7 @@ class _HomeSponsorState extends State<HomeSponsor> {
               return Container(
                   child:
                   ListView.separated(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(4),
                     key: _sponsorKey,
                     itemCount: mascotas.length,
                     itemBuilder: (BuildContext context, int index) => PetCard(

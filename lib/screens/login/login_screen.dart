@@ -12,6 +12,10 @@ class Login extends StatefulWidget {
 final _usernameController = TextEditingController();
 final _passwordController = TextEditingController();
 
+login(authService) async{
+  await authService.login(_usernameController.text, _passwordController.text);
+}
+
 class _LoginState extends State<Login> {
   final _loginKey = GlobalKey<FormState>();
   bool passwordVisible;
@@ -160,7 +164,7 @@ class _LoginState extends State<Login> {
                                                   final form = _loginKey.currentState;
                                                   if (form.validate()){
                                                     form.save();
-                                                    await authService.login(_usernameController.text, _passwordController.text);
+                                                    await login(authService);
                                                     _showDialog(context, authService.mssg);
                                                     _loginKey.currentState?.reset();
                                                   }
